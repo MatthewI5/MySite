@@ -21,10 +21,12 @@
   --hover-speed: .1s;
   --hover-ease: ease-out;
   --fade-delay: 0s;
+
+  --theme-background: white;
 }
 
 html {
-    font-size:20px;
+    font-size:13pt;
 }
 
 body {
@@ -33,11 +35,11 @@ body {
 
 h1 {
     font-weight:600;
-    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
 }
 h2 {
-    font-weight:500;
-    font-size: 1.5rem
+    font-weight:600;
+    font-size: 1.4rem
 }
 
 
@@ -46,7 +48,7 @@ h2 {
 }
 
 hr.divider {
-    width:clamp(50px, 10vw, 200px);
+    width:clamp(50px, 10vw, 100px);
     margin-top:2rem;
     margin-bottom:2rem
 }
@@ -70,6 +72,11 @@ hr.divider {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.pad-top {
+    padding-top: 2rem;
+}
+
+
 
 #header,
 #subheader {
@@ -81,12 +88,12 @@ hr.divider {
     grid-column: 2;
     white-space: nowrap;
     font-weight: 400;
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(3rem, 5vw, 4rem);
     text-align: center;
 }
 
 #subheader {
-    font-size: clamp(1rem, 3vw, 1rem);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
 }
 
 #top-nav-container {
@@ -102,7 +109,7 @@ hr.divider {
 .navbar {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 3rem;
     margin-top: 1rem;
 }
 .navbar a {
@@ -117,14 +124,16 @@ hr.divider {
 }
 
 .navbar#navbar-left {
-    justify-content: flex-start;
+    justify-content: flex-end;
+    /* This creates a gap that shrinks from 4rem down to 1rem as the screen narrows */
+    margin-right: clamp(1rem, 10vw, 100rem);
 }
 
 .navbar#navbar-right {
-    justify-content: flex-end;
+    justify-content: flex-start;
+    /* This does the same for the right side */
+    margin-left: clamp(1rem, 10vw, 100rem);
 }
-
-
 
 #mobile-nav-container {
     justify-content: center;
@@ -168,17 +177,19 @@ hr.divider {
   
   justify-content: center; 
   
-  gap: 1rem; 
+  gap: clamp(1rem, 2.5vw, 5rem); 
   padding:  1rem;
 }
 
 .tile {
-    height: 15rem;
+    height: 25rem;
     box-sizing: border-box;
     border-radius: 8px;
     position: relative;
     overflow: hidden; /* Clips the zoomed image */
-    background-color: #f0f0f0;
+    background-color: var(--theme-background);
+    border: 5px solid white;
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
 }
 
 .tile.clickable {
@@ -208,32 +219,65 @@ hr.divider {
     bottom: 0;
     width: 100%;
     z-index: 1; /* Keep it above the background */
-    background-color: #c0c0c0;
+    background-color: white;
     transition: padding var(--hover-speed) var(--hover-ease);
-    padding: 0.5rem;
+    padding:1rem;
     box-sizing: border-box;
 }
 
 .tile.clickable:hover .text {
-    padding: 0.7rem;
+    padding: 1.2rem 0 1.2rem 1rem;
 }
 
-.tile .text {
-    background-color:#c0c0c0;
-    position:absolute;
-    bottom:0;
-    width:100%;
-    left:0;
-    padding:0.5rem;
-    box-sizing: border-box;
-    transition:padding var(--hover-speed) var(--hover-ease);
-}
 .tile h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    text-align:center;
-    margin: 0.5rem 0 0 0;
+    margin: 1rem 0 0 0;
 }
-.tile p {
-    margin:0 0 0.5rem 0;
-    text-align:center;
+
+.tile .text .enter {
+  position: relative;   
+  display: inline-block; 
+  margin: 0.5rem 0;
+}
+.tile .text .enter::after {
+  content: '';
+  position: absolute;
+  width: 100%; /* Fully visible by default */
+  height: 1px; /* Thickness of the underline */
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: transform 0.3s ease; /* Smooth shrink animation */
+  transform-origin: right; /* Shrinks towards the right side */
+  transform: scaleX(1);
+}
+.tile .text .enter i {
+    margin-left:0.5rem;
+    transition: margin-left var(--hover-speed) var(--hover-ease);
+}
+
+.tile.clickable:hover .text .enter::after {
+  transform: scaleX(0.5); 
+  transform-origin: right;
+}
+.tile.clickable:hover .text .enter i {
+  margin-left: 1rem;
+}
+
+
+
+
+
+
+/* Entities */
+.tag {
+    padding: 0.3rem 0.8rem;
+    margin: 0.5rem 0.5rem 0 0;
+    border-radius:5px;
+    font-size:0.8rem;
+    background-color: hsl(var(--tag-color-deg), 70%, 95%);
+    color: hsl(var(--tag-color-deg), 30%, 65%);
+    font-weight:700;
+    position:relative;
+    display:inline-block;
+    text-transform: uppercase;
 }
