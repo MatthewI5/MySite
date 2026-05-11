@@ -1,0 +1,184 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(40%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+:root {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+
+  --hover-speed: .1s
+}
+
+html {
+    font-size:20px
+}
+
+body {
+    margin:clamp(50px, 5%, 200px);
+}
+
+[fade-delay="0"] { --fade-delay: 0s; }
+[fade-delay="0.5"] { --fade-delay: 0.5s; }
+
+.center {
+    text-align: center
+}
+
+hr.divider {
+    width:clamp(50px, 10vw, 200px);
+    margin-top:2rem;
+    margin-bottom:2rem
+}
+
+
+
+
+
+
+
+#header,
+#subheader {
+    opacity:0;
+    text-align:center;
+    animation: 1s ease-in-out fadeIn var(--fade-delay)forwards;
+}
+
+#header {
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3rem);
+}
+
+#subheader {
+    font-size: clamp(1rem, 3vw, 1rem);
+}
+
+.top-nav-container {
+    display: flex;
+    align-items: center; /* Vertically centers nav links with the title */
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+.navbar a {
+    text-decoration: none;
+    color: grey;
+    font-weight:200;
+    position: relative;
+}
+.navbar a:hover {
+    color:black;
+    font-weight: 300
+}
+
+.navbar#navbar-right {
+    justify-content: flex-end;
+}
+
+@media (max-width: 800px) {
+    .top-nav-container {
+        justify-content: center;
+    }
+
+    .navbar {
+        display: none;
+    }
+}
+
+
+
+
+/* Tile Layout */
+#tile-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 500px));
+  
+  justify-content: center; 
+  
+  gap: 1rem; 
+  padding:  1rem;
+}
+
+.tile {
+    height: 15rem;
+    box-sizing: border-box;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden; /* Clips the zoomed image */
+    background-color: #f0f0f0;
+}
+
+.tile.clickable {
+    cursor: pointer;
+}
+
+/* Create a layer specifically for the background image */
+.tile::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: var(--tile-image);
+    background-size: cover; /* Fits the smallest axis automatically */
+    background-position: center;
+    transition: transform var(--hover-speed) ease, filter var(--hover-speed) ease;
+    filter: brightness(0.6);
+}
+
+.tile.clickable:hover::before {
+    transform: scale(1.1); /* This is your 110% zoom */
+    filter: brightness(1);
+}
+
+.tile .text {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 1; /* Keep it above the background */
+    background-color: #c0c0c0;
+    transition: padding var(--hover-speed) ease;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.tile.clickable:hover .text {
+    padding: 0.7rem;
+}
+
+.tile .text {
+    background-color:#c0c0c0;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    left:0;
+    padding:0.5rem;
+    box-sizing: border-box;
+    transition:padding var(--hover-speed) ease;
+}
+.tile h1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    text-align:center;
+    margin: 0.5rem 0 0 0;
+}
+.tile p {
+    margin:0 0 0.5rem 0;
+    text-align:center
+}
