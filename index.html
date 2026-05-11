@@ -12,8 +12,7 @@
 
     <div class="top-nav-container">
         <div class="navbar" id="navbar-left">
-            <a href="/">Home</a>
-            <a href="https://blog.matprojects.xyz">Blog</a>
+            <a href="https://blog.matprojects.xyz" style="--fade-delay:0.5s">Blog</a>
         </div>
 
         <div id="title-group">
@@ -22,21 +21,26 @@
         </div>
 
         <div class="navbar" id="navbar-right">
-            <a href="/">Home</a>
-            <a href="https://blog.matprojects.xyz">Blog</a>
+            <a href="/" style="--fade-delay: 0.5s">Home</a>
         </div>
     </div>
 
-    <hr class="divider">
-    <h1 class="center pad-top">My Projects</h1>
+    <hr class="divider fade">
+    <h1 class="center pad-top fade">My Projects</h1>
     
     <div id="tile-container">
-        <div class="tile clickable" style="--tile-image: url('https://picsum.photos/400/300');">
+        <div class="tile" style="--tile-image: url('https://picsum.photos/400/300');--fade-delay: 0.5s">
             <div class="text">
-                <h1>Title</h1>
+                <h2>Title</h2>
                 <p>Test description and stuff can be big</p>
             </div>
         </div>
+        <a class="tile clickable" style="--tile-image: url('/media/tiles/blog.webp');--fade-delay: 0.75s" href="https://blog.matprojects.xyz">
+            <div class="text">
+                <h2>Blog</h2>
+                <p>Blogging my findings!</p>
+            </div>
+        </a>
     </div>
 </body>
 </html>

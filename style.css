@@ -4,7 +4,7 @@
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(40%);
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -15,22 +15,25 @@
 :root {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 200;
+  font-weight: 300;
   font-style: normal;
 
-  --hover-speed: .1s
+  --hover-speed: .1s;
+  --hover-ease: ease-out;
+  --fade-delay: 0s;
 }
 
 html {
-    font-size:20px
+    font-size:20px;
 }
 
 body {
     margin:clamp(50px, 5%, 200px);
 }
 
-[fade-delay="0"] { --fade-delay: 0s; }
-[fade-delay="0.5"] { --fade-delay: 0.5s; }
+h1 {font-weight:600}
+h2 {font-weight:500}
+
 
 .center {
     text-align: center
@@ -43,16 +46,28 @@ hr.divider {
 }
 
 
+.fade,
+#tile-container .clickable,
+#tile-container div {
+    opacity:0;
+    animation: 1s ease fadeIn var(--fade-delay) forwards;
+}
 
-
-
+.noselect,
+#tile-container {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
 
 
 #header,
 #subheader {
-    opacity:0;
     text-align:center;
-    animation: 1s ease-in-out fadeIn var(--fade-delay)forwards;
 }
 
 #header {
@@ -129,6 +144,7 @@ hr.divider {
 
 .tile.clickable {
     cursor: pointer;
+    color:black
 }
 
 /* Create a layer specifically for the background image */
@@ -139,13 +155,13 @@ hr.divider {
     background-image: var(--tile-image);
     background-size: cover; /* Fits the smallest axis automatically */
     background-position: center;
-    transition: transform var(--hover-speed) ease, filter var(--hover-speed) ease;
+    transition: transform var(--hover-speed) var(--hover-ease), filter var(--hover-speed) var(--hover-ease);
     filter: brightness(0.6);
 }
 
 .tile.clickable:hover::before {
-    transform: scale(1.1); /* This is your 110% zoom */
-    filter: brightness(1);
+    transform: scale(1.05); /* This is your 110% zoom */
+    filter: brightness(0.7);
 }
 
 .tile .text {
@@ -154,7 +170,7 @@ hr.divider {
     width: 100%;
     z-index: 1; /* Keep it above the background */
     background-color: #c0c0c0;
-    transition: padding var(--hover-speed) ease;
+    transition: padding var(--hover-speed) var(--hover-ease);
     padding: 0.5rem;
     box-sizing: border-box;
 }
@@ -171,14 +187,14 @@ hr.divider {
     left:0;
     padding:0.5rem;
     box-sizing: border-box;
-    transition:padding var(--hover-speed) ease;
+    transition:padding var(--hover-speed) var(--hover-ease);
 }
-.tile h1 {
+.tile h2 {
     font-size: clamp(1.5rem, 3vw, 2rem);
     text-align:center;
     margin: 0.5rem 0 0 0;
 }
 .tile p {
     margin:0 0 0.5rem 0;
-    text-align:center
+    text-align:center;
 }
