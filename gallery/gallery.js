@@ -19,11 +19,13 @@ async function Demo_Grid_Justified() {
     }
 
     $("#nanogallery").nanogallery2({
-        thumbnailWidth:   400,
+        thumbnailWidth:   200,
         thumbnailHeight: 300,
         itemsBaseURL:     `${BASE}`,
         items: items
     });
 }
 
-Demo_Grid_Justified();
+window.onload = async function() {
+    await Demo_Grid_Justified()
+}

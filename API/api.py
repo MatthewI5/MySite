@@ -1,8 +1,6 @@
-
-
-
-import quart 
+import quart
 import aiohttp
+from aiocache import cached # Example: pip install aiocache
 
 app = quart.Quart(__name__)
 
@@ -10,55 +8,57 @@ ALBUM_ID = "742c8e97-1a4a-4bbe-bc52-4a350855ae36"
 GALLERY_ROOT = "https://photos.matprojects.xyz"
 ARGS = "?slug=website&withoutAssets=false"
 
-def cors_headers(headers : list):
+# Global session to be initialized on startup
+session = None
 
-    headers = [h for h in headers if h[0].lower() not in ["access-control-allow-origin", "access-control-allow-headers", "access-control-allow-methods"]]
+@app.before_serving
+async def create_session():
+    global session
+    session = aiohttp.ClientSession()
 
-    headers.append(("Access-Control-Allow-Origin", "*"))
-    headers.append(("Access-Control-Allow-Headers", "*"))
-    headers.append(("Access-Control-Allow-Methods", "*"))
+@app.after_serving
+async def close_session():
+    await session.close()
 
-    return headers
+def get_cors_headers():
+    return {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Methods": "*"
+    }
 
 @app.route('/api/gallery')
+@cached(ttl=60)  # Cache the JSON response for 60 seconds
 async def _gallery():
-
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f'{GALLERY_ROOT}/api/albums/{ALBUM_ID}{ARGS}') as resp:
-                data = await resp.json()
-
-                headers = ( resp.headers).items()
-                
-                headers = list(headers)
-                headers = cors_headers([])
-
-                print(data, resp.status, headers )
-                return data, resp.status, dict(headers) 
+        async with session.get(f'{GALLERY_ROOT}/api/albums/{ALBUM_ID}{ARGS}') as resp:
+            data = await resp.json()
+            return data, resp.status, get_cors_headers()
     except Exception as e:
-        print(e)
-        return {"error": "Failed to fetch gallery data"}, 500, [("Access-Control-Allow-Origin", "*"), ("Access-Control-Allow-Headers", "*"), ("Access-Control-Allow-Methods", "*")]
+        return {"error": str(e)}, 500, get_cors_headers()
 
 @app.route('/api/gallery/<photo_id>/<size>')
 async def _gallery_photo(photo_id, size):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(f'{GALLERY_ROOT}/api/assets/{photo_id}/thumbnail{ARGS}&size={size}') as resp:
+    url = f'{GALLERY_ROOT}/api/assets/{photo_id}/thumbnail{ARGS}&size={size}'
+    
+    resp = await session.get(url)
+    
+    if resp.status != 200:
+        resp.close()
+        return "Image not found", resp.status, get_cors_headers()
 
-            
-            status = resp.status 
-            
-            # 2. content equivalent (MUST be awaited)
-            content = await resp.read() 
-            
-            # 3. headers.items() equivalent
-            headers = ( resp.headers).items()
+    @quart.stream_with_context
+    async def stream_image():
+        try:
+            async for chunk in resp.content.iter_chunked(8192):
+                yield chunk
+        finally:
+            resp.close()
 
-            # add cors to headers 
-            headers = list(headers)
-            headers = cors_headers([])
+    headers = get_cors_headers()
+    headers["Content-Type"] = resp.headers.get("Content-Type", "image/jpeg")
+    
+    return stream_image(), resp.status, headers
 
-            
-            return content, status, headers
-
-
-app.run(host='0.0.0.0', port=8000)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000)
