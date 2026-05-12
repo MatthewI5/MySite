@@ -1,6 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Old+Standard+TT:wght@700&display=swap');
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -26,11 +25,12 @@
 }
 
 html {
-    font-size:13pt;
+    font-size:14pt;
 }
 
 body {
     margin:clamp(50px, 5%, 200px);
+    background-color: #F5F5F5;
 }
 
 h1 {
@@ -87,9 +87,10 @@ hr.divider {
 #header {
     grid-column: 2;
     white-space: nowrap;
-    font-weight: 400;
+    font-style: italic;
     font-size: clamp(3rem, 5vw, 4rem);
     text-align: center;
+    font-family: Old Standard TT;
 }
 
 #subheader {
@@ -98,10 +99,8 @@ hr.divider {
 
 #top-nav-container {
     display: grid;
-    /* Creates 3 equal columns */
     grid-template-columns: 1fr auto 1fr; 
     align-items: center;
-    padding: 1rem 2rem;
     width: 100%;
     box-sizing: border-box;
 }
@@ -112,13 +111,17 @@ hr.divider {
     gap: 3rem;
     margin-top: 1rem;
 }
-.navbar a {
+.navbar .selected{
+    color: black;
+    font-weight: 400;
+}
+.navbar a{
     text-decoration: none;
     color: grey;
-    font-weight:200;
+    font-weight:400;
     position: relative;
 }
-.navbar a:hover {
+.navbar a:not(.selected):hover {
     color:black;
     font-weight: 300
 }
@@ -140,6 +143,11 @@ hr.divider {
     gap: 2rem;
     margin-top: 2rem;
     display:none;
+}
+
+.extra-margin {
+    /* use clamp marign should be 0 on mobile but about 20% on desktop */
+    margin: 0 15vw
 }
 
 @media (max-width: 800px) {
@@ -164,6 +172,11 @@ hr.divider {
     #mobile-nav-container {
         display: flex;
     }
+
+    .extra-margin {
+        /* use clamp marign should be 0 on mobile but about 20% on desktop */
+        margin: 0
+    }
 }
 
 
@@ -173,16 +186,16 @@ hr.divider {
 /* Tile Layout */
 #tile-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 500px));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
   
   justify-content: center; 
   
-  gap: clamp(1rem, 2.5vw, 5rem); 
-  padding:  1rem;
+  gap: clamp(13pt, 2.5vw, 65pt); 
+  padding:  13pt;
 }
 
 .tile {
-    height: 25rem;
+    height: 350pt;
     box-sizing: border-box;
     border-radius: 8px;
     position: relative;
@@ -221,22 +234,22 @@ hr.divider {
     z-index: 1; /* Keep it above the background */
     background-color: white;
     transition: padding var(--hover-speed) var(--hover-ease);
-    padding:1rem;
+    padding:13pt;
     box-sizing: border-box;
 }
 
 .tile.clickable:hover .text {
-    padding: 1.2rem 0 1.2rem 1rem;
+    padding: 15pt 0 15pt 13pt;
 }
 
 .tile h2 {
-    margin: 1rem 0 0 0;
+    margin: 13pt 0 0 0;
 }
 
 .tile .text .enter {
   position: relative;   
   display: inline-block; 
-  margin: 0.5rem 0;
+  margin: 6pt 0;
 }
 .tile .text .enter::after {
   content: '';
@@ -251,7 +264,7 @@ hr.divider {
   transform: scaleX(1);
 }
 .tile .text .enter i {
-    margin-left:0.5rem;
+    margin-left:6pt;
     transition: margin-left var(--hover-speed) var(--hover-ease);
 }
 
@@ -260,7 +273,7 @@ hr.divider {
   transform-origin: right;
 }
 .tile.clickable:hover .text .enter i {
-  margin-left: 1rem;
+  margin-left: 13pt;
 }
 
 
