@@ -1,0 +1,16 @@
+/* Center the wrapper itself */
+.gallery-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#nanogallery {
+    max-width: 1000px;
+    width: 100%;
+}
+
+.nGY2GThumbnail   {
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3) !important;
+    border: 1px solid white; /* Matches your borderColor intent */
+}

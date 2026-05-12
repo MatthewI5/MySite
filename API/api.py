@@ -39,7 +39,7 @@ async def _gallery():
 
 @app.route('/api/gallery/<photo_id>/<size>')
 async def _gallery_photo(photo_id, size):
-    url = f'{GALLERY_ROOT}/api/assets/{photo_id}/thumbnail{ARGS}&size={size}'
+    url = f'{GALLERY_ROOT}/api/assets/{photo_id}/thumbnail{ARGS}&size={size}' if size != "original" else f'{GALLERY_ROOT}/api/assets/{photo_id}/original{ARGS}'
     
     resp = await session.get(url)
     
