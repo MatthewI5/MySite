@@ -1,5 +1,7 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Old+Standard+TT:wght@700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -88,9 +90,9 @@ hr.divider {
     grid-column: 2;
     white-space: nowrap;
     font-style: italic;
-    font-size: clamp(3rem, 5vw, 4rem);
+    font-size: clamp(1.7rem, 5vw, 2.5rem);
     text-align: center;
-    font-family: Old Standard TT;
+    font-family: Boldonse;
 }
 
 #subheader {
@@ -115,7 +117,7 @@ hr.divider {
     color: black;
     font-weight: 400;
 }
-.navbar a{
+.navbar a, a{
     text-decoration: none;
     color: grey;
     font-weight:400;
@@ -125,16 +127,31 @@ hr.divider {
     color:black;
     font-weight: 300
 }
+.navbar a:not(.selected)::after, a.link::after{
+  content: '';
+  position: absolute;
+  width: 100%; 
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: transform 0.3s ease; 
+  transform-origin: right; 
+  transform: scaleX(0);
+}
+
+.navbar a:not(.selected):hover::after, a.link:hover::after {
+  transform: scaleX(0.5); 
+  transform-origin: right;
+}
 
 .navbar#navbar-left {
     justify-content: flex-end;
-    /* This creates a gap that shrinks from 4rem down to 1rem as the screen narrows */
     margin-right: clamp(1rem, 10vw, 100rem);
 }
 
 .navbar#navbar-right {
     justify-content: flex-start;
-    /* This does the same for the right side */
     margin-left: clamp(1rem, 10vw, 100rem);
 }
 
@@ -146,38 +163,10 @@ hr.divider {
 }
 
 .extra-margin {
-    /* use clamp marign should be 0 on mobile but about 20% on desktop */
     margin: 0 15vw
 }
 
-@media (max-width: 800px) {
-    #top-nav-container {
-        /* Change grid to a single column */
-        grid-template-columns: 1fr; 
-        justify-content: center;
-        padding: 1rem;
-    }
 
-    #header {
-        /* Reset to the first (and only) column */
-        grid-column: 1; 
-        text-align: center;
-        margin: 0 auto;
-    }
-
-    .navbar {
-        display: none;
-    }
-
-    #mobile-nav-container {
-        display: flex;
-    }
-
-    .extra-margin {
-        /* use clamp marign should be 0 on mobile but about 20% on desktop */
-        margin: 0
-    }
-}
 
 
 
@@ -223,7 +212,7 @@ hr.divider {
 }
 
 .tile.clickable:hover::before {
-    transform: scale(1.05); /* This is your 110% zoom */
+    transform: scale(1.05);
     filter: brightness(0.7);
 }
 
@@ -231,7 +220,7 @@ hr.divider {
     position: absolute;
     bottom: 0;
     width: 100%;
-    z-index: 1; /* Keep it above the background */
+    z-index: 1;
     background-color: white;
     transition: padding var(--hover-speed) var(--hover-ease);
     padding:13pt;
@@ -254,13 +243,13 @@ hr.divider {
 .tile .text .enter::after {
   content: '';
   position: absolute;
-  width: 100%; /* Fully visible by default */
-  height: 1px; /* Thickness of the underline */
+  width: 100%;
+  height: 1px; 
   bottom: -2px;
   left: 0;
   background-color: currentColor;
-  transition: transform 0.3s ease; /* Smooth shrink animation */
-  transform-origin: right; /* Shrinks towards the right side */
+  transition: transform 0.3s ease; 
+  transform-origin: right;
   transform: scaleX(1);
 }
 .tile .text .enter i {
@@ -293,4 +282,101 @@ hr.divider {
     position:relative;
     display:inline-block;
     text-transform: uppercase;
+}
+
+
+
+
+
+
+
+/* Footer */
+
+.site-footer {
+  margin-top: 6rem;
+  padding: 3rem 0 1.5rem;
+  border-top: 1px solid #d9d9d9;
+  color: #555;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.footer-name {
+  margin: 0 0 0.4rem;
+  font-style:italic;
+  font-family: Boldonse, sans-serif;
+  color: #111;
+}
+
+.footer-tag,
+.footer-meta,
+.footer-nav a,
+.footer-socials a {
+  font-size: 0.95rem;
+}
+
+.footer-nav,
+.footer-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-nav a,
+.footer-socials a {
+  display: inline-block;
+  width: fit-content;
+}
+
+.footer-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ececec;
+}
+
+
+
+
+/* MOBILE RESPONESSIVE DESIGN */
+@media (max-width: 800px) {
+
+    /* Navbar */
+    #top-nav-container {
+        grid-template-columns: 1fr; 
+        justify-content: center;
+        padding: 1rem;
+    }
+    #header {
+        grid-column: 1; 
+        text-align: center;
+        margin: 0 auto;
+    }
+    .navbar {
+        display: none;
+    }
+    #mobile-nav-container {
+        display: flex;
+    }
+
+    /* Remove extra margins on mobile */
+    .extra-margin {
+        margin: 0
+    }
+
+    /* Footer adjustments */
+    .footer-main {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-meta {
+        flex-direction: column;
+    }
 }
