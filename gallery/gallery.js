@@ -60,10 +60,19 @@ async function Demo_Grid_Justified() {
         img.src = thumbURL;
 
         img.onload = function() {
+
+
+            let date = new Date(asset.exifInfo.dateTimeOriginal);
+            let formattedDate = date.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
             // Create the new item using the identified class
             const newItem = ItemClass.New(
                 instance, 
-                `${asset.exifInfo.make} ${asset.exifInfo.model}`, 
+                `${asset.exifInfo.make} ${asset.exifInfo.model} - ${formattedDate}`, 
                 asset.exifInfo.description || "", 
                 asset.id, 
                 '0', 

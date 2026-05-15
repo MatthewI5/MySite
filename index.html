@@ -21,7 +21,7 @@
 <body>
 
     <template id="tag-template">
-        <a class="tag clickable" style="--tile-image: url('{{image_src}}');--fade-delay: 0.75s" href="https://blog.matprojects.xyz/{{slug}}">
+        <a class="tag clickable" style="--tile-image: url('{{image_src}}');--fade-delay: {{fade_delay}}s" href="https://blog.matprojects.xyz/{{slug}}">
             <div class="section" style="--section-color-deg:210">{{date}}</div>
             <div class="text">
                 <h2>{{title}}</h2>
@@ -66,7 +66,7 @@
     <hr class="divider fade">
     
     <div id="tile-container">
-        <a class="card clickable" style="--tile-image: url('/media/tiles/blog.webp');--fade-delay: 0.75s" href="https://blog.matprojects.xyz">
+        <a class="card clickable" style="--tile-image: url('/media/tiles/blog.webp');--fade-delay: 0.5s" href="https://blog.matprojects.xyz">
             <div class="text">
                 <div class="section" style="--section-color-deg:210">writing</div>
                 <h2>blog</h2>
@@ -74,7 +74,7 @@
                 <div class="enter">see posts<i class="fa-solid fa-arrow-right"></i></div>
             </div>
         </a>
-        <a class="card clickable" style="--tile-image: url('https://photos.matprojects.xyz/api/assets/8cd0f5c8-d007-4b91-9c57-dde68b147f5d/thumbnail?slug=website&size=preview&c=oPcJHYJYeHh%2Fhoh8d4d4lGaPZ%2FZ4&edited=true');--fade-delay: 1s" href="/gallery">
+        <a class="card clickable" style="--tile-image: url('https://photos.matprojects.xyz/api/assets/8cd0f5c8-d007-4b91-9c57-dde68b147f5d/thumbnail?slug=website&size=preview&c=oPcJHYJYeHh%2Fhoh8d4d4lGaPZ%2FZ4&edited=true');--fade-delay: 0.75s" href="/gallery">
             <div class="text">
                 <div class="section" style="--section-color-deg:90">photography</div>
                 <h2>gallery</h2>
