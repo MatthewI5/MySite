@@ -2,10 +2,19 @@ import quart
 import aiohttp
 from aiocache import cached # Example: pip install aiocache
 
+import os
+import dotenv
+
 app = quart.Quart(__name__)
 
-ALBUM_ID = "742c8e97-1a4a-4bbe-bc52-4a350855ae36"
-GALLERY_ROOT = "https://photos.matprojects.xyz"
+dotenv.load_dotenv()
+
+ALBUM_ID = os.getenv("IMMICH_ALBUM")
+GALLERY_ROOT = os.getenv("IMMICH_BASE")
+
+GHOST_ROOT = os.getenv("GHOST_BASE")
+GHOST_KEY = os.getenv("GHOST_KEY")
+
 ARGS = "?slug=website&withoutAssets=false"
 
 # Global session to be initialized on startup
@@ -27,8 +36,19 @@ def get_cors_headers():
         "Access-Control-Allow-Methods": "*"
     }
 
-@app.route('/api/gallery')
+
+@app.route('/api/posts')
 @cached(ttl=60)  # Cache the JSON response for 60 seconds
+async def _posts():
+    try:
+        async with session.get(f'{GHOST_ROOT}/ghost/api/content/posts?key={GHOST_KEY}') as resp:
+            data = await resp.json()
+            return data, resp.status, get_cors_headers()
+    except Exception as e:
+        return {"error": str(e)}, 500, get_cors_headers()
+
+@app.route('/api/gallery')
+@cached(ttl=60) 
 async def _gallery():
     try:
         async with session.get(f'{GALLERY_ROOT}/api/albums/{ALBUM_ID}{ARGS}') as resp:
@@ -59,6 +79,7 @@ async def _gallery_photo(photo_id, size):
     headers["Content-Type"] = resp.headers.get("Content-Type", "image/jpeg")
     
     return stream_image(), resp.status, headers
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)

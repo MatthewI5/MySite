@@ -19,8 +19,22 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+
+    <template id="tag-template">
+        <a class="tag clickable" style="--tile-image: url('{{image_src}}');--fade-delay: 0.75s" href="https://blog.matprojects.xyz/{{slug}}">
+            <div class="section" style="--section-color-deg:210">{{date}}</div>
+            <div class="text">
+                <h2>{{title}}</h2>
+                <p>{{description}}</p>
+                <div class="enter">read post ({{read_time}}m)<i class="fa-solid fa-arrow-right"></i></div>
+            </div>
+            
+        </a>
+    </template>
+
+
     <div id="mobile-nav-container" class="navbar">
-        <a href="/">home</a>
+        <a href="/" class="selected">home</a>
         <a href="https://blog.matprojects.xyz">blog</a>
         <a href="/gallery">gallery</a>
     </div>
@@ -41,24 +55,28 @@
         </div>
     </div>
     
+    <h1 class="center pad-top fade">recent blog posts</h1>
 
+    <hr class="divider fade">
+
+    <div id="tag-container"></div>
     
     <h1 class="center pad-top fade">some of my projects</h1>
 
     <hr class="divider fade">
     
     <div id="tile-container">
-        <a class="tile clickable" style="--tile-image: url('/media/tiles/blog.webp');--fade-delay: 0.75s" href="https://blog.matprojects.xyz">
+        <a class="card clickable" style="--tile-image: url('/media/tiles/blog.webp');--fade-delay: 0.75s" href="https://blog.matprojects.xyz">
             <div class="text">
-                <div class="tag" style="--tag-color-deg:210">writing</div>
+                <div class="section" style="--section-color-deg:210">writing</div>
                 <h2>blog</h2>
                 <p>writing about what I've learned and done</p>
                 <div class="enter">see posts<i class="fa-solid fa-arrow-right"></i></div>
             </div>
         </a>
-        <a class="tile clickable" style="--tile-image: url('https://photos.matprojects.xyz/api/assets/8cd0f5c8-d007-4b91-9c57-dde68b147f5d/thumbnail?slug=website&size=preview&c=oPcJHYJYeHh%2Fhoh8d4d4lGaPZ%2FZ4&edited=true');--fade-delay: 1s" href="/gallery">
+        <a class="card clickable" style="--tile-image: url('https://photos.matprojects.xyz/api/assets/8cd0f5c8-d007-4b91-9c57-dde68b147f5d/thumbnail?slug=website&size=preview&c=oPcJHYJYeHh%2Fhoh8d4d4lGaPZ%2FZ4&edited=true');--fade-delay: 1s" href="/gallery">
             <div class="text">
-                <div class="tag" style="--tag-color-deg:90">photography</div>
+                <div class="section" style="--section-color-deg:90">photography</div>
                 <h2>gallery</h2>
                 <p>sharing my favourite photos i've taken</p>
                 <div class="enter">view photos<i class="fa-solid fa-arrow-right"></i></div>
@@ -91,4 +109,5 @@
         </div>
     </footer>
 </body>
+<script src="/index.js"></script>
 </html>

@@ -1,0 +1,4 @@
+aiocache
+quart
+aiohttp
+python-dotenv

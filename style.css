@@ -58,7 +58,9 @@ hr.divider {
 
 .fade,
 #tile-container .clickable,
-#tile-container div {
+#tile-container div,
+#tag-container .clickable,
+#tag-container div {
     opacity:0;
     animation: 1s ease fadeIn var(--fade-delay) forwards;
 }
@@ -83,6 +85,7 @@ hr.divider {
 #header,
 #subheader {
     text-align:center;
+    color:black;
 }
 
 /* Ensure the title is always in the middle column */
@@ -90,13 +93,14 @@ hr.divider {
     grid-column: 2;
     white-space: nowrap;
     font-style: italic;
-    font-size: clamp(1.7rem, 5vw, 2.5rem);
+    font-size: clamp(20pt, 5vw, 35pt);
     text-align: center;
     font-family: Boldonse;
 }
 
 #subheader {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-size: clamp(16pt, 3vw, 21pt);
+    font-family: "Montserrat", sans-serif;
 }
 
 #top-nav-container {
@@ -110,8 +114,10 @@ hr.divider {
 .navbar {
     display: flex;
     justify-content: center;
-    gap: 3rem;
-    margin-top: 1rem;
+    gap: 42pt;
+    margin-top: 14pt;
+    font-size: 14pt;
+    font-family: "Montserrat", sans-serif;
 }
 .navbar .selected{
     color: black;
@@ -147,18 +153,18 @@ hr.divider {
 
 .navbar#navbar-left {
     justify-content: flex-end;
-    margin-right: clamp(1rem, 10vw, 100rem);
+    margin-right: clamp(14pt, 10vw, 1400pt);
 }
 
 .navbar#navbar-right {
     justify-content: flex-start;
-    margin-left: clamp(1rem, 10vw, 100rem);
+    margin-left: clamp(14pt, 10vw, 1400pt);
 }
 
 #mobile-nav-container {
     justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: 28pt;
+    margin-top: 28pt;
     display:none;
 }
 
@@ -173,7 +179,8 @@ hr.divider {
 
 
 /* Tile Layout */
-#tile-container {
+#tile-container, 
+#tag-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
   
@@ -183,8 +190,11 @@ hr.divider {
   padding:  13pt;
 }
 
-.tile {
-    height: 350pt;
+#tag-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 600px));
+}
+
+.card, .tag {
     box-sizing: border-box;
     border-radius: 8px;
     position: relative;
@@ -194,13 +204,21 @@ hr.divider {
     box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
 }
 
-.tile.clickable {
+.tag {
+    height: 150pt;
+}
+
+.card {
+    height: 350pt;
+}
+
+.card.clickable, .tag.clickable {
     cursor: pointer;
     color:black
 }
 
 /* Create a layer specifically for the background image */
-.tile::before {
+.card::before, .tag::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -211,36 +229,60 @@ hr.divider {
     filter: brightness(0.6);
 }
 
-.tile.clickable:hover::before {
+.card.clickable:hover::before, .tag.clickable:hover::before {
     transform: scale(1.05);
     filter: brightness(0.7);
 }
 
-.tile .text {
+.tag .text, .card .text {
     position: absolute;
-    bottom: 0;
-    width: 100%;
     z-index: 1;
     background-color: white;
-    transition: padding var(--hover-speed) var(--hover-ease);
+    transition: padding var(--hover-speed) var(--hover-ease), width var(--hover-speed) var(--hover-ease);;
     padding:13pt;
     box-sizing: border-box;
 }
+.card .text {
+    bottom: 0;
+    width: 100%;
+}
+.tag .text {
+    right: 0;
+    width: 70%;
+    height:100%;
+}
 
-.tile.clickable:hover .text {
+.card.clickable:hover .text {
     padding: 15pt 0 15pt 13pt;
 }
-
-.tile h2 {
-    margin: 13pt 0 0 0;
+.tag.clickable:hover .text {
+    width: 71%;
 }
 
-.tile .text .enter {
+.card h2, .tag h2 {
+    margin: 13pt 0 0 0;
+}
+.tag h2 {
+    font-size: 1.1rem;
+    margin: 0
+}
+.tag p {
+    font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+    margin: 7pt 0 5pt 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; 
+    line-clamp: 4;   
+    overflow: hidden;
+}
+
+.card .text .enter, .tag .text .enter {
   position: relative;   
   display: inline-block; 
   margin: 6pt 0;
+  color:#555
 }
-.tile .text .enter::after {
+.card .text .enter::after, .tag .text .enter::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -252,16 +294,19 @@ hr.divider {
   transform-origin: right;
   transform: scaleX(1);
 }
-.tile .text .enter i {
+.card .text .enter i, .tag .text .enter i {
     margin-left:6pt;
     transition: margin-left var(--hover-speed) var(--hover-ease);
 }
+.tag .text .enter {
+    margin: 0
+}
 
-.tile.clickable:hover .text .enter::after {
+.card.clickable:hover .text .enter::after, .tag.clickable:hover .text .enter::after {
   transform: scaleX(0.5); 
   transform-origin: right;
 }
-.tile.clickable:hover .text .enter i {
+.card.clickable:hover .text .enter i, .tag.clickable:hover .text .enter i {
   margin-left: 13pt;
 }
 
@@ -271,17 +316,27 @@ hr.divider {
 
 
 /* Entities */
-.tag {
+.section {
     padding: 0.3rem 0.8rem;
     margin: 0.5rem 0.5rem 0 0;
     border-radius:5px;
     font-size:0.8rem;
-    background-color: hsl(var(--tag-color-deg), 70%, 95%);
-    color: hsl(var(--tag-color-deg), 30%, 65%);
+    background-color: hsl(var(--section-color-deg), 70%, 95%);
+    color: hsl(var(--section-color-deg), 30%, 65%);
     font-weight:700;
     position:relative;
     display:inline-block;
     text-transform: uppercase;
+}
+.tag .section {
+    margin : 0;
+    font-size:0.6rem;
+    padding: 0.2rem 0.6rem;
+    position:absolute;
+    left:5pt;
+    top:5pt;
+    z-index: 5;
+    max-width:15%;
 }
 
 
