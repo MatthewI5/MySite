@@ -1,6 +1,9 @@
 
-// Track page visit
-fetch("https://api.matprojects.xyz/api/visits/index", { method: "POST" });
+// Track page visit with subdomain
+(async () => {
+    const subdomain = window.location.hostname.split('.')[0];
+    await fetch(`https://api.matprojects.xyz/api/visits/index/${subdomain}`, { method: "POST" });
+})();
 
 async function loadPosts() {
     r = await fetch("https://api.matprojects.xyz/api/posts");

@@ -56,9 +56,11 @@ async def create_session():
             await cursor.execute("""
                 CREATE TABLE IF NOT EXISTS visits (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                       page VARCHAR(255) NOT NULL UNIQUE,
+                       page VARCHAR(255) NOT NULL,
+                       subdomain VARCHAR(255) NOT NULL,
                        visit_count INT DEFAULT 0,
-                       last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                       last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                       UNIQUE KEY unique_page_subdomain (page, subdomain)
                 )
             """)
             await conn.commit()
@@ -124,29 +126,33 @@ async def _gallery_photo(photo_id, size):
     return stream_image(), resp.status, headers
 
 
-@app.route('/api/visits/', methods=['POST'])
-@app.route('/api/visits/<page>', methods=['POST'])
-async def _add_visit(page="/"):
+@app.route('/api/visits/<page>/<subdomain>', methods=['POST', 'OPTIONS'])
+@app.route('/api/visits/<page>', methods=['POST', 'OPTIONS'])
+async def _add_visit(page="/", subdomain=""):
     """Increment the visit counter for a specific page in the database"""
+    # Handle CORS preflight requests
+    if quart.request.method == 'OPTIONS':
+        return '', 204, get_cors_headers()
+    
     try:
         async with db_pool.acquire() as conn:
             async with conn.cursor() as cursor:
                 # Select the database
                 await cursor.execute("USE mysite")
                 
-                   # Insert or update visit count for the page
+                # Insert or update visit count for the page and subdomain
                 await cursor.execute(
-                       "INSERT INTO visits (page, visit_count) VALUES (%s, 1) ON DUPLICATE KEY UPDATE visit_count = visit_count + 1",
-                       (page,)
+                       "INSERT INTO visits (page, subdomain, visit_count) VALUES (%s, %s, 1) ON DUPLICATE KEY UPDATE visit_count = visit_count + 1",
+                       (page, subdomain)
                 )
                 await conn.commit()
                 
                 # Get the updated count
-                await cursor.execute("SELECT visit_count FROM visits WHERE page = %s", (page,))
+                await cursor.execute("SELECT visit_count FROM visits WHERE page = %s AND subdomain = %s", (page, subdomain))
                 result = await cursor.fetchone()
                 visit_count = result[0] if result else 0
                 
-                return {"success": True, "page": page, "visit_count": visit_count}, 200, get_cors_headers()
+                return {"success": True, "page": page, "subdomain": subdomain, "visit_count": visit_count}, 200, get_cors_headers()
     except Exception as e:
         return {"error": str(e)}, 500, get_cors_headers()
 

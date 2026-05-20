@@ -103,8 +103,11 @@ async function Demo_Grid_Justified() {
 
 // Use jQuery ready to ensure the library is fully initialized
 $(document).ready(function() {
-    // Track page visit
-    fetch("https://api.matprojects.xyz/api/visits/gallery", { method: "POST" });
+    // Track page visit with subdomain
+    (async () => {
+        const subdomain = window.location.hostname.split('.')[0];
+        await fetch(`https://api.matprojects.xyz/api/visits/gallery/${subdomain}`, { method: "POST" });
+    })();
     
     Demo_Grid_Justified();
 });
