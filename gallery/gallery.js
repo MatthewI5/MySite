@@ -103,5 +103,8 @@ async function Demo_Grid_Justified() {
 
 // Use jQuery ready to ensure the library is fully initialized
 $(document).ready(function() {
+    // Track page visit
+    fetch("https://api.matprojects.xyz/api/visits/gallery", { method: "POST" });
+    
     Demo_Grid_Justified();
 });

@@ -1,4 +1,6 @@
 
+// Track page visit
+fetch("https://api.matprojects.xyz/api/visits/index", { method: "POST" });
 
 async function loadPosts() {
     r = await fetch("https://api.matprojects.xyz/api/posts");

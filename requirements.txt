@@ -2,3 +2,4 @@ aiocache
 quart
 aiohttp
 python-dotenv
+aiomysql
